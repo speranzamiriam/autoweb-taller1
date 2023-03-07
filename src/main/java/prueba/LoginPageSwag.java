@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.List;
 
 public class LoginPageSwag extends BasePage {
 
@@ -15,27 +14,13 @@ public class LoginPageSwag extends BasePage {
     }
 
     public void open() {
-        driver.get("https://opencart.abstracta.us/");
+        driver.get("https://www.saucedemo.com/");
         driver.manage().window().maximize();
     }
-
-    public void selectOptions(String value) {
-        driver.findElement(By.xpath("//a[contains(@title,'My Account')]")).click();
-        WebElement content = driver.findElement(By.id("top-links"));
-        List<WebElement> list = content.findElements(By.tagName("a"));
-        for (WebElement element : list) {
-            if (element.getText().equals(value)) {
-                JavascriptExecutor js = (JavascriptExecutor) driver;
-                js.executeScript("arguments[0].click();", element);
-                break;
-            }
-        }
-    }
-
-    public void enterCredentials(String user, String pass) {
-        driver.findElement(By.id("input-email")).sendKeys(user);
-        driver.findElement(By.id("input-password")).sendKeys(pass);
-        driver.findElement(By.xpath("//input[@type='submit']")).click();
+    public void enterCredentialsPorId(String user, String pass) {
+        driver.findElement(By.xpath("//input[@id='user-name']")).sendKeys(user);
+        driver.findElement(By.id("password")).sendKeys(pass);
+        driver.findElement(By.name("login-button")).click();
     }
 
     public boolean isLoadedTextBox() {
@@ -43,12 +28,13 @@ public class LoginPageSwag extends BasePage {
     }
 
     public String getSuccessValue() {
-        WebElement value = driver.findElement(By.xpath("//h2[text()='My Account']"));
+
+        WebElement value=  driver.findElement(By.xpath("//div[@id='header_container']/div[2]/span"));
         return value.getText();
     }
 
     public String getErrorValue() {
-        WebElement error = driver.findElement(By.xpath("//div[contains(@class,'alert')]"));
+        WebElement error =driver.findElement(By.xpath("//div[@id='login_button_container']/div/form/div[3]/h3"));
        return error.getText();
     }
 

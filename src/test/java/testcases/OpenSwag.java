@@ -8,8 +8,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import prueba.LoginPage;
+import prueba.LoginPageSwag;
 
-public class OpenCart {
+public class OpenSwag {
 
     static WebDriver driver;
 
@@ -19,33 +20,30 @@ public class OpenCart {
     }
 
     @Test
-    public void login() {
-        LoginPage loginPage = new LoginPage(driver);
+    public void loginExitoso() {
+        LoginPageSwag loginPage = new LoginPageSwag(driver);
         loginPage.open();
-        loginPage.selectOptions("Login");
-        Assert.assertTrue(loginPage.isLoadedTextBox());
-        loginPage.enterCredentials("montesmoraleserick@gmail.com", "Prueba.01");
+        loginPage.enterCredentialsPorId("standard_user", "secret_sauce");
         String value = loginPage.getSuccessValue();
-        if (value.equals("My Account")) {
+        if (value.equals("Products")) {
             Assert.assertTrue(true);
-        } else {
-            Assert.assertTrue(false);
-        }
+       } else {
+           Assert.assertTrue(false);
+       }
     }
 
     @Test
     public void loginWithoutUser() {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPageSwag loginPage = new LoginPageSwag(driver);
         loginPage.open();
-        loginPage.selectOptions("Login");
-        Assert.assertTrue(loginPage.isLoadedTextBox());
-        loginPage.enterCredentials("", "Prueba.01");
+        loginPage.enterCredentialsPorId("risa", "123456");
         String value = loginPage.getErrorValue();
-        if (value.equals("Warning: No match for E-Mail Address and/or Password.")) {
+        if (value.equals("Epic sadface: Username and password do not match any user in this service")) {
             Assert.assertTrue(true);
         } else {
             Assert.assertTrue(false);
         }
+
     }
 
     @AfterMethod
